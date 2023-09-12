@@ -33,6 +33,9 @@ int main()
 		}
 	}
 
+//	打印电梯初始楼层
+	printf("%d %d %d\n", elevatorfloor, time, people);
+
 //进行最短距离测算(初始化楼层寻找）
 	int distance =10;
 	int save;
