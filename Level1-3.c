@@ -33,9 +33,15 @@ int main()
 		}
 	}
 
-//	打印电梯初始楼层
-	printf("%d %d %d\n", elevatorfloor, time, people);
-
+//	打印电梯初始楼层(如果一楼没人上电梯的情况下)
+	int cal = 0;
+	for( i=0; i<10; i++){	
+		if (beginfloor[i] == 1)
+		cal +=1;		//cal用来判断是否一楼有人上梯，即是否需要打印出 1 0 0
+	} 
+	if( cal == 0){
+		printf("%d %d %d\n", elevatorfloor, time, people);
+	}
 //进行最短距离测算(初始化楼层寻找）
 	int distance =10;
 	int save;
@@ -81,6 +87,7 @@ int main()
 					closestfloor2 = aimfloor[i];
 					save2 = i;					//记录i的值（便于录入目标楼层）
 				}				
+				
 			}
 			//distance和distance2进行比较
 			//如果前往起始楼层
