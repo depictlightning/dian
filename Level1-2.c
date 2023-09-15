@@ -5,9 +5,11 @@ int main()
 	int bf; //人所在的楼层
 	int tf;	//人的终点楼层
 	int ef;	//电梯现在所在楼层
-	
-	FILE *fp = fopen("D:\\dian\\Level1-1.txt","r");
-	fscanf(fp,"%d %d %d", &ef, &bf, &tf);
+
+//请输入文件地址
+	FILE *fp = fopen("D:\\dian\\Level1-2.txt","r");
+	fscanf(fp,"%d\n", &ef);
+	fscanf(fp,"%d %d",&bf, &tf);
 	fclose(fp);
 	
 	int time = 0;	//当下运行时间
