@@ -7,7 +7,7 @@ int count(int a, int b); //定义距离计算函数
 //		7 4 6
 //		-1 -1 -1
 
-//
+// 
 int main()
 {
 	int beginfloor[10];	//乘客初始楼层
@@ -44,14 +44,19 @@ int main()
 		break;
 		}
 	}
-
+//将所有间隔时间转化为总时间（方便与elevatorfloor时间进行比较）
+	for( i=0; i<10; i++){
+		if(ti[i+1] = -20)
+		break;
+		ti[i+1] +=ti[i];	
+	}
 
 //	//调试
 	printf("\tbegin\tbegin2\taim\taim2\tti\n");
 	for( i=0; i<10; i++){
 			printf("%d\t%d\t%d\t%d\t%d\t%d\n",i,beginfloor[i],begin2floor[i],aimfloor[i],aim2floor[i], ti[i]);
 	}	
-	printf("jilu的值为：%d",jilu);
+	// printf("jilu的值为：%d",jilu);
 	return 0;
 }
 
