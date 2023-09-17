@@ -1,8 +1,7 @@
 #include<stdio.h>
 int count(int a, int b); //定义距离计算函数
 
-// 输入格式：1 2 3表示初始楼层、目标楼层 和时间
-//	
+// 输入格式：1 2 3表示初始楼层、目标楼层 和时间	
 //	输入-1 -1 -1表示输入结束 
 //	eg. 5
 //		8 5 0
@@ -123,6 +122,7 @@ int main()
 			elevatorfloor = testfloor;
 			time += testdistance;
 			people += 1;
+			begin2floor[save] = beginfloor[save];
 
 		}
 	
