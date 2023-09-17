@@ -1,6 +1,5 @@
 #include<stdio.h>
 int count(int a, int b); //定义距离计算函数
-int jilucount(int *time[10], int timejilu);	//定义时间记录函数，用于记录哪些时间还未录入
 
 // 输入格式：1 2 3表示初始楼层、目标楼层 和时间
 //	
@@ -46,6 +45,7 @@ int main()
 		break;
 		}
 	}
+
 	
 //电梯初始化（前往beginfloor(可能有多个人在0s呼叫）
 	int jilu = 0;			//用于记录还有哪些ti[]的时间没有录入
@@ -73,7 +73,7 @@ int main()
 	if (ti[jilu] > mindistance ){
 		begin2floor[save] = -20;			//删除初始楼层
 		aim2floor[save] = aimfloor[save];	//录入目标楼层
-		elevatorfloor = closestfloor;	//计算楼层
+		elevatorfloor = closestfloor;		//计算楼层
 		people +=1;
 		time += mindistance;
 		printf("%d %d %d\n", elevatorfloor, time, people);		
@@ -86,17 +86,9 @@ int main()
 		people +=1;
 		time += mindistance;
 		printf("%d %d %d\n", elevatorfloor, time, people);
-		save = jilu;						//录入begin2floor(可能存在多人)
-		for (i = save; i<10;i++ ){			//让jilu到达下一个或下几个ti(可能中间存在0的情况）
-			if (ti[i+1] == 0 ){
-				jilu ++;
-				
-			}
-			if( ti[i+2] != 0)
-		}
-		for ( i = save; i < jilu; i++){
-			begin2floor[i] = beginfloor[i];
-		}		
+		save = jilu;						//录入begin2floor
+		jilu ++;
+		begin2floor[save] = beginfloor[save];	
 	}
 	//小于的情况
 	else if (ti[jilu] < mindistance){
@@ -118,23 +110,20 @@ int main()
 			begin2floor[save] = -20;			//删除初始楼层
 			aim2floor[save] = aimfloor[save];	//录入目标楼层
 			elevatorfloor = closestfloor;	//计算楼层
-			people +=1;
-			time += mindistance;
+			people += 1;
+			time += mindistance;				//注意time对ti[jilu]的影响
+			ti[jilu] -= testdistance;
 			printf("%d %d %d\n", elevatorfloor, time, people);	
-			save = jilu;						//录入begin2floor(可能存在多人)
-			for( i=save; i<10; i++){
-				if (ti[i] == 0){		//录入初始楼层
-					jilu = i + 1;
-				}
-				if (ti[i+1] != 0)
-				break;
-			}
-			for ( i = save; i < jilu; i++){
-				begin2floor[i] = beginfloor[i];	
-			}
+			save = jilu;						//录入begin2floor
+			jilu ++;
+			begin2floor[save] = beginfloor[save];
+		}	
 		//小于时：前往下一个乘客的初始楼层（
 		else if ( testdistance < mindistance){
-			
+			elevatorfloor = testfloor;
+			time += testdistance;
+			people += 1;
+
 		}
 	
 	
