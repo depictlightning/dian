@@ -421,7 +421,7 @@ int main()
 					}
 				}
 				aim2floor[save] = aimfloor[save];
-				beginfloor[save] = -20;	
+				begin2floor[save] = -20;	
 				for (i=0; i<10; i++){
 					if(memory[i] != -1){
 						aim2floor[memory[i]] = -20;
