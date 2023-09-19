@@ -88,7 +88,7 @@ int main()
 			elevatorfloor = closestfloor;		//计算楼层
 			printf("%d %d %d\n", elevatorfloor, time, people);
 			if( testtime == ti[jilu] ){
-				begin2floor[jilu] = begin2floor[jilu];	//与小于相比增加了ti[]楼层录入
+				begin2floor[jilu] = beginfloor[jilu];	//与小于相比增加了ti[]楼层录入
 				jilu++;									//转到下一个ti[]
 			}	
 		}
