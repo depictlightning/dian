@@ -61,6 +61,7 @@ int main()
 	int testfloor;	//用于testtime > ti[jilu]的情况,判断是否前往新呼叫乘客的初始楼层
 	int testdistance;		//比较testdistance 和mindistance的区别判断优先前往哪个楼层
 	int distance =10;
+	int cnt = 0;
 //电梯初始化（初始化与后面的代码高度重复但又有细微差别)前往beginfloor(可能有多个人在0s呼叫）
 	while (people == 0){		
 		for( i=jilu; i<10; i++){
@@ -120,6 +121,7 @@ int main()
 		}
 	}
 
+
 //完成初始化后回归Level1-3的逻辑
 	int distance2 =0;
 	int save2 = 0;
@@ -166,7 +168,7 @@ int main()
 				testtime = time + mindistance;
 			}
 			
-	//将初始化代码和Level1-3代码结合
+//将初始化代码和Level1-3代码结合
 			if (testtime <= ti[jilu]){		
 				//distance和distance2进行比较
 				//如果前往起始楼层
@@ -291,8 +293,18 @@ int main()
 					}
 				}		
 			}
+			for ( i=0; i<10; i++){							//解决间隔时间过长电梯陷入死循环的问题
+				cnt++;
+				if (begin2floor[i] != -20 || aim2floor[i] != -20)
+				 	break;
+			}
+			if (cnt == 10){
+				begin2floor[jilu] = beginfloor[jilu];
+				time = ti[jilu];
+				jilu++;
+			}
+			cnt = 0;
 		}
-	}
 		while(people > 3){
 			if (ti[jilu] == -20)				//即所有begin2floor都已经被录入，直接break.之后和Level1-3程序完全一致
 				break;
@@ -329,12 +341,23 @@ int main()
 				}
 			jilu++;
 			printf("%d %d %d\n", elevatorfloor, time, people);	 
-			}	
+			}
+			for ( i=0; i<10; i++){							//解决间隔时间过长电梯陷入死循环的问题
+				cnt++;
+				if (begin2floor[i] != -20 || aim2floor[i] != -20)
+				 	break;
+			}
+			if (cnt == 10){
+				begin2floor[jilu] = beginfloor[jilu];
+				time = ti[jilu];
+				jilu++;
+			}
+			cnt = 0;
 		}
+	}	
 				
 //之后完全模拟Level1-3
-	while(people > -1){
-		
+	while(people > -1){		
 		while (people < 4 ){
 //调试
 		// printf("\tbegin\tbegin2\taim\taim2\tti\ttime\tti[jilu]\n");
@@ -495,7 +518,7 @@ int main()
 			if (cnt == 10)
 			break;			
 			cnt = 0;	
-		}
+	}	
 //	调试
 //	printf("\tbegin\tbegin2\taim\taim2\tti\n");
 //	for( i=0; i<10; i++){
