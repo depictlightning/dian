@@ -1,6 +1,7 @@
 #include<stdio.h>
 int nextfloor(int state, int efloor); //nextfloor函数通过当前电梯状态判断接下来前往的楼层
 int count(int a, int b);			//距离计算函数
+int state(int elevatorfloor, int closestfloor);		//判断电梯目前状态
 int main()
 {
 //所有1,2下标表示电梯1，电梯2
@@ -70,10 +71,10 @@ int main()
 //分为电梯两停，一停一动，两动
 	for ( i=0;i<10;i++ ){
 		if (ti[i] == time){
-			begin2floor[i] == beginfloor[i];
+			begin2floor[i] = beginfloor[i];
 		}
 	}
-	//两停
+//电梯状态：两停
 	if (state1 == 0 && state2 == 0 ){
 		for ( i=0; i<10; i++){		//对电梯1的最近初始楼层检索
 			distance1 =count(elevator1floor,begin2floor[i]);	
@@ -91,35 +92,35 @@ int main()
 				save2 = i;	
 			}
 		}
-//判断电梯两辆全启动还是只一辆（前提存在begin2floor请求)
+			//判断电梯两辆全启动还是只一辆（前提存在begin2floor请求)
 			if ( closest1floor == closest2floor){	//如果最近楼层一致(仅有一个请求)，谁近谁去
-			//(存在一个特例，即有两个及以上请求，但closestfloor都指向同一楼，此时让另一部电梯等待1个单位时间（非最优解，但程序编写相对简单）
+				//(存在一个特例，即有两个及以上请求，但closestfloor都指向同一楼，此时让另一部电梯等待1个单位时间（非最优解，但程序编写相对简单）
 				if( mindistance1 <= mindistance2){
-					state1 = updown[save1];	
+					state1 = state(elevator1floor, closest1floor);	
 				}else{
-					state2 = updown[save2];
+					state2 = state(elevator2floor, closest2floor);
 				}
 			}
 			else{										//存在多个请求
-				state1 = updown[save1];
-				state2 = updown[save2];									
+				state1 = state(elevator1floor, closest1floor);
+				state2 = state(elevator2floor, closest2floor);								
 			}			
-		}
 	}
-	
-	
-	
-	
-	
-	
-	
-//	调试
-	printf("\tbegin\tbegin2\taim\taim2\tti\tupdown[i]\n");
-	for( i=0; i<10; i++){
-			printf("%d\t%d\t%d\t%d\t%d\t%d\t%d\n",i,beginfloor[i],begin2floor[i],aimfloor[i],aim2floor[i], ti[i],updown[i]);
-	}	
-	return 0;
+		
+
 }
+	
+	
+	
+
+//		printf("state1:%d,state2:%d,closest1floor:%d,closest2floor:%d\n",state1,state2);
+//	调试
+//	printf("\tbegin\tbegin2\taim\taim2\tti\tupdown[i]\n");
+//	for( i=0; i<10; i++){
+//			printf("%d\t%d\t%d\t%d\t%d\t%d\t%d\n",i,beginfloor[i],begin2floor[i],aimfloor[i],aim2floor[i], ti[i],updown[i]);
+//	}	
+//	return 0;
+//}
 
 int nextfloor(int state, int efloor)	//通过当前电梯状态判断接下来前往的楼层
 {	
@@ -127,7 +128,7 @@ int nextfloor(int state, int efloor)	//通过当前电梯状态判断接下来�
 		if (efloor != 10){
 			efloor++;	
 		}
-	if (state == -1 )
+	if (state == -1 ){
 		if (efloor != 1)
 			efloor--;
 	}
@@ -143,4 +144,15 @@ int count(int a, int b)
 		m = b - a;
 	}
 	return m;
+}
+
+int state(int elevatorfloor, int closestfloor){			//判断电梯目前状态
+	int elevatorstate;
+	if (elevatorfloor > closestfloor){
+		elevatorstate = -1;
+	}
+	else if (elevatorfloor < closestfloor){
+		elevatorstate = 1;
+	}
+	return elevatorstate;
 }
