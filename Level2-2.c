@@ -2,11 +2,14 @@
 int nextfloor(int state, int efloor); //nextfloor函数通过当前电梯状态判断接下来前往的楼层
 int count(int a, int b);			//距离计算函数
 int state(int elevatorfloor, int closestfloor);		//判断电梯目前状态
+
+
+//注意本程序忽略了一种极端情况，即两辆电梯在同一时刻抵达目的楼层，之后需要进行比对判断哪辆电梯前往哪个楼层，由于人数过少，此情况难以出现
 int main()
 {
 //所有1,2下标表示电梯1，电梯2
     int beginfloor[10];	//乘客初始楼层
-	int begin2floor[10];//time到达后录入初始楼层
+	int begin3floor[10];//time到达后录入初始楼层(之所以用3是为了和电梯1,2下标做区分）
 	int aimfloor[10];	//乘客目标楼层
 	int aim1floor[10],aim2floor[10]; //乘客进入后录入目标楼层
 	int ti[10];			//乘客时间
@@ -29,10 +32,10 @@ int main()
 //将所有数组的值初始化为-20（避免对后续数据造成影响）	
 	for( i=0; i<10; i++){	
 		beginfloor[i] = -20;
-		begin2floor[i] = -20;
+		begin3floor[i] = -20;
 		aimfloor[i] = -20;
 		aim1floor[i] = -20;
-		aim2floor[i] = -20
+		aim2floor[i] = -20;
 		ti[i] = -20;
 		updown[i] = -20;
 	}
@@ -75,28 +78,28 @@ int main()
 //分为电梯两停，一停一动，两动(包含多人同时按下电梯）
 	for ( i=0;i<10;i++ ){
 		if (ti[i] == time){
-			begin2floor[i] = beginfloor[i];
+			begin3floor[i] = beginfloor[i];
 		}
 	}
 //电梯状态：都处于停止时
 	if (state1 == 0 && state2 == 0 ){
 		for ( i=0; i<10; i++){		//对电梯1的最近初始楼层检索
-			distance1 =count(elevator1floor,begin2floor[i]);	
+			distance1 =count(elevator1floor,begin3floor[i]);	
 			if (distance1 < mindistance1){
 				mindistance1 = distance1;
-				closest1floor = begin2floor[i];
+				closest1floor = begin3floor[i];
 				save1 = i;
 			}
 		}
 		for ( i=0; i<10; i++){		//对电梯1的最近初始楼层检索
-			distance2 =count(elevator2floor,begin2floor[i]);	
+			distance2 =count(elevator2floor,begin3floor[i]);	
 			if (distance2 < mindistance2){
 				mindistance1 = distance2;
-				closest2floor = begin2floor[i];
+				closest2floor = begin3floor[i];
 				save2 = i;	
 			}
 		}
-			//判断电梯两辆全启动还是只一辆（前提存在begin2floor请求)
+			//判断电梯两辆全启动还是只一辆（前提存在begin3floor请求)
 			if ( closest1floor == closest2floor){	//如果最近楼层一致(仅有一个请求)，谁近谁去
 				//(存在一个特例，即有两个及以上请求，但closestfloor都指向同一楼，此时让另一部电梯等待1个单位时间（非最优解，但程序编写相对简单）
 				if( mindistance1 <= mindistance2){
@@ -113,45 +116,95 @@ int main()
 //电梯1状态：处于运行中（按state状态向上或向下前进一楼）
 	if (state1 != 0){						//对电梯1进行判断
 		elevator1floor = nextfloor(state1,elevator1floor);	//前进一楼
-		for ( i=0; i<10; i++){
-			if (aim1floor[i] == elevator1floor){		//无论是否满载，判断是否有乘客下车,沿用之前逻辑
-				a = 1;									//判断变量，无实际意义
-				memory[i] = i;
-				number++;
-			}else{
-				memory[i] = -1;
+		//还未到达目标楼层
+		if (elevator2floor != closest2floor){			
+			for ( i=0; i<10; i++){
+				if (aim1floor[i] == elevator1floor){		//无论是否满载，判断是否有乘客下车,沿用之前逻辑
+					a = 1;									//判断变量，无实际意义
+					memory[i] = i;
+					number++;
+				}else{
+					memory[i] = -1;
+				}
 			}
-		}
-		for(i=0; i<10; i++){
-			if(memory[i] != -1){
-				aim1floor[memory[i]] = -20;
+			for(i=0; i<10; i++){
+				if(memory[i] != -1){
+					aim1floor[memory[i]] = -20;
+				}
 			}
-		}
-		people1 -=number;
-			if( people1 < 4){						//未满载时,判断是否接受乘客请求(必须满足方向相同）
-				if (begin2floor[i] == elevator1floor && state1 == updown[i]){
-					b = 1;						//判断变量，无实际意义
-					people1++;					//人数+1；
-					begin2floor[i] = -20;		//删除请求数据
-					aim1floor[i] = aimfloor[i]	//录入目标楼层
-				}	
+			people1 -=number;
+				if( people1 < 4){						//未满载时,判断是否接受乘客请求(必须满足方向相同）
+					if (begin3floor[i] == elevator1floor && state1 == updown[i]){
+						b = 1;						//判断变量，无实际意义
+						people1++;					//人数+1；
+						begin3floor[i] = -20;		//删除请求数据
+						aim1floor[i] = aimfloor[i]	//录入目标楼层
+					}	
+				}
 			}
+			if (a == 1 || b == 1){				//满足其中一个条件打印数据
+				printf("elevator1:%d %d %d\n",elevator1floor, time, people1 );
+			}
+			a = 0;
+			b = 0;
 		}
-		if (a == 1 || b == 1){				//满足其中一个条件打印数据
-			printf("elevator1:%d %d %d\n",elevator1floor, time, people1 );
-		}
-		a = 0;
-		b = 0;
 		//到达目的楼层后
-		if (elevator1floor == closest1floor )				
-															//电梯状态
-
-	}
+		if (elevator1floor == closest1floor ){
+			if (people1 > 0){				//如果电梯上还有乘客，优先前往目的楼层，电梯状态不变
+				for ( i=0; i<10; i++){		//对电梯1的最近初始楼层检索
+					distance1 =count(elevator1floor,aim1floor[i]);	
+					if (distance1 < mindistance1){
+						mindistance1 = distance1;
+						closest1floor = aim1floor[i];
+					}
+				}
+			}
+			else if(people1 == 0){				//已经没有乘客
+				if( state2 != 0){				//电梯2处于启动状态
+					elevator2floor = nextfloor(state1,elevator2floor);		//如果电梯2还在运行中(前进一楼）（之所以不放在下面判断因为此处需要使用)
+					for ( i= 0; i<10; i++){
+	//如开头所提，此处不考虑两辆电梯在同一时刻抵达目的楼层，之后需要进行比对判断哪辆电梯前往哪个楼层的情况
+						if (state2 == 1){	//检索存在的请求楼层（当然应当不在另一部电梯的范围内）
+							if (begin3floor[i] < closest2floor && begin3floor[i] > elevator2floor ){	//不在另一部电梯范围内的判断
+								distance1 =count(elevator1floor,begin3floor[i]);					//请求楼层搜索
+								if (distance1 < mindistance1){
+									mindistance1 = distance1;
+									closest1floor = begin3floor[i];	
+									begin3floor[i] = -20;			//锁定之后删除请求
+									state1 = state(elevator1floor, closest1floor); 		//更改电梯状态												
+								}
+							}
+						}
+						else if(state2 == -1){
+							if (begin3floor[i] > closest2floor && begin3floor[i] < elevator2floor ){	//不在另一部电梯范围内的判断
+								distance1 =count(elevator1floor,begin3floor[i]);	
+								if (distance1 < mindistance1){
+									mindistance1 = distance1;
+									closest1floor = begin3floor[i];	
+									begin3floor[i] = -20;			//锁定之后删除请求
+									state1 = state(elevator1floor, closest1floor); 		//更改电梯状态		
+								}
+							}							
+						}
+						
+						if (begin3floor[i] = -20){			//如果没有请求，电梯状态归0
+							cnt ++;
+						}
+					if (cnt == 10){
+						state1 = 0;
+					}	
+					cnt = 0;							//回归初始化
+				}
+				else if (state2 == 0){				//即当下两部电梯均处于停止状态（与最初相同，为使代码简洁，让两部电梯停止运行一个单位时间）
+					state1 = 0;
+				}
+			}
+															
+															
 
 //电梯2状态：处于运行中（按state状态向上或向下前进一楼）
-	if (state2 != 0){						//对电梯1进行判断
-		elevator2floor = nextfloor(state2,elevator2floor);	//前进一楼
-		if (elevator2floor < closest2floor){			//还未到达目标楼层
+	if (state2 != 0){						//对电梯2进行判断
+		if (elevator2floor != closest2floor){			//还未到达目标楼层
 			for ( i=0; i<10; i++){
 				if (aim2floor[i] == elevator2floor){		//无论是否满载，判断是否有乘客下车,沿用之前逻辑
 					a = 1;									//判断变量，无实际意义
@@ -167,10 +220,10 @@ int main()
 			}
 			people2 -=number;
 				if( people2 < 4){						//未满载时,判断是否接受乘客请求(必须满足方向相同）
-					if (begin2floor[i] == elevator2floor && state2 == updown[i]){
+					if (begin3floor[i] == elevator2floor && state2 == updown[i]){
 						b = 1;						//判断变量，无实际意义
 						people2++;					//人数+1；
-						begin2floor[i] = -20;		//删除请求数据
+						begin3floor[i] = -20;		//删除请求数据
 					}	
 				}
 			}
@@ -189,7 +242,7 @@ int main()
 //	调试
 //	printf("\tbegin\tbegin2\taim\taim2\tti\tupdown[i]\n");
 //	for( i=0; i<10; i++){
-//			printf("%d\t%d\t%d\t%d\t%d\t%d\t%d\n",i,beginfloor[i],begin2floor[i],aimfloor[i],aim2floor[i], ti[i],updown[i]);
+//			printf("%d\t%d\t%d\t%d\t%d\t%d\t%d\n",i,beginfloor[i],begin3floor[i],aimfloor[i],aim2floor[i], ti[i],updown[i]);
 //	}	
 //	return 0;
 //}
