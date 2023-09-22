@@ -13,6 +13,7 @@ int count(int a, int b); //定义距离计算函数
 */
 int main()
 {
+	printf("此为最多10个人的版本,存着备用,新版见Level2-1_new\n");
 	int beginfloor[10];	//乘客初始楼层
 	int begin2floor[10];//time到达后录入初始楼层
 	int aimfloor[10];	//乘客目标楼层
@@ -315,7 +316,7 @@ int main()
 					save2 = i;					//记录i的值
 				}
 			}
-						for (i=0; i<10; i++){				//专用于解决目的楼层相同时的人数bug
+			for (i=0; i<10; i++){				//专用于解决目的楼层相同时的人数bug(主要确认瞎扯几人)
 				if (aim2floor[save2] == aim2floor[i] ){
 					memory[i] = i;
 					number ++;
