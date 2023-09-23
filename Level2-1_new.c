@@ -109,18 +109,19 @@ st:	for (i=jilu; i< jilu + 10; i++){		//到达请求时间就录入数据
 		
 		//如果运输完毕，结束程序
 		for (i=0; i<jilu; i++){
-			cnt	++;
 			if (ti[jilu-1] < ti[total-1] || beginfloor[i] != -20 || aimfloor[i] != -20 )
 				break;
+			cnt++;
 		}	
 		if (cnt == total)
 			break;
 		cnt = 0;
 		//如果此时恰好出现真空期（所有乘客运输完毕但还有乘客将要呼叫，时间直接变为那个乘客的时间，goto函数前往初始化）
 		for (i=0; i<jilu; i++){
-			cnt	++;
-			if (ti[jilu-1] <= ti[total-1] || beginfloor[i] != -20 || aimfloor[i] != -20 )
+			if (ti[jilu-1] != ti[total-1] || beginfloor[i] != -20 || aimfloor[i] != -20 ){
 				break;
+			}
+			cnt++;
 		}
 		if (cnt == jilu){
 			jilu++;
@@ -155,9 +156,9 @@ st:	for (i=jilu; i< jilu + 10; i++){		//到达请求时间就录入数据
 	time++;
 	}
 //调试
-//	printf("i\tti[i]\tbegin[i]\tjilu\n");
+//	printf("i\tti[i]\tjilu\ttotal\tbegin[i]\taimfloor\n");
 //	for( i=0; i<total; i++){
-//		printf("%d\t%d\t%d\t%d\n",i,ti[i],beginfloor[i],jilu);
+//		printf("%d\t%d\t%d\t%d\t%d\t%d\n",i,ti[i],jilu,total,beginfloor[i],aimfloor[i]);
 //	}
 }
 
