@@ -1,50 +1,50 @@
 #include<stdio.h>
-int count(int a, int b); //å®šä¹‰è·ç¦»è®¡ç®—å‡½æ•°
-int nextfloor(int efloor,int closestfloor); //å®šä¹‰ç”µæ¢¯ä¸‹ä¸€ä¸ªå‰å¾€æ¥¼å±‚å‡½æ•°
+int count(int a, int b); //¶¨Òå¾àÀë¼ÆËãº¯Êı
+int nextfloor(int efloor,int closestfloor); //¶¨ÒåµçÌİÏÂÒ»¸öÇ°ÍùÂ¥²ãº¯Êı
 
 int main()
 {
 	int time = 0;
 	int people = 0;
-	int	beginsave[100],aimsave[100],ti[100];	//å‚¨å­˜æ•°æ®
+	int	beginsave[100],aimsave[100],ti[100];	//´¢´æÊı¾İ
 	int elevatorfloor;
-	int total = 0;		//ç”¨äºè®°å½•ä¸€å…±è¾“å…¥äº†å¤šå°‘ä¸ªæ•°æ®
-	int beginfloor[100],aimfloor[100];			//åˆ°è¾¾é—´éš”æ—¶é—´åå½•å…¥æ•°æ®
-	int jilu = 0;		//ç”¨äºè®°å½•ç›®å‰å½•å…¥åˆ°å“ªä¸ªæ•°æ®
+	int total = 0;		//ÓÃÓÚ¼ÇÂ¼Ò»¹²ÊäÈëÁË¶àÉÙ¸öÊı¾İ
+	int beginfloor[100],aimfloor[100];			//µ½´ï¼ä¸ôÊ±¼äºóÂ¼ÈëÊı¾İ
+	int jilu = 0;		//ÓÃÓÚ¼ÇÂ¼Ä¿Ç°Â¼Èëµ½ÄÄ¸öÊı¾İ
 	int distance1 = 0, distance2 = 0;	
-	int mindistance1 = 10, mindistance2 = 10;	//æœ€çŸ­è·ç¦»
-	int closestfloor,closestfloor1,closestfloor2; 	//æ¥ä¸‹æ¥è¦å‰å¾€çš„æ¥¼å±‚
-	int a=0,b=0;				//åˆ¤æ–­å˜é‡ï¼Œæ— å®é™…æ„ä¹‰
-	int cnt = 0;				//ç¨‹åºå¤„äºçœŸç©ºæœŸæ—¶ä½¿ç”¨
+	int mindistance1 = 10, mindistance2 = 10;	//×î¶Ì¾àÀë
+	int closestfloor,closestfloor1,closestfloor2; 	//½ÓÏÂÀ´ÒªÇ°ÍùµÄÂ¥²ã
+	int a=0,b=0;				//ÅĞ¶Ï±äÁ¿£¬ÎŞÊµ¼ÊÒâÒå
+	int cnt = 0;				//³ÌĞò´¦ÓÚÕæ¿ÕÆÚÊ±Ê¹ÓÃ
 	
 	
-	//æ•°ç»„å½•å…¥
-	printf("ç•Œé¢å‡ºç°elevatoråå¼€å§‹è¾“å…¥æ•°æ®ã€‚è¾“å…¥ç»“æŸåæŒ‰å›è½¦é”®è¾“å…¥-1 -1 -1å†æŒ‰å›è½¦é”®é€€å‡ºç¨‹åº\n");
-	printf("ç¬¬ä¸€ä¸ªè¾“å…¥çš„æ•°æ®é—´éš”æ—¶é—´å¤„åº”ä¸º0\n");
+	//Êı×éÂ¼Èë
+	printf("½çÃæ³öÏÖelevatorºó¿ªÊ¼ÊäÈëÊı¾İ¡£ÊäÈë½áÊøºó°´»Ø³µ¼üÊäÈë-1 -1 -1ÔÙ°´»Ø³µ¼üÍË³ö³ÌĞò\n");
+	printf("µÚÒ»¸öÊäÈëµÄÊı¾İ¼ä¸ôÊ±¼ä´¦Ó¦Îª0\n");
 	printf("elevator:");
 	scanf("%d\n",&elevatorfloor);
 	int i;
 	for( i=0; i<100; i++){	
 		scanf("%d %d %d", &beginsave[i], &aimsave[i], &ti[i]);
 		total++;
-		if (beginsave[i] == -1 &&aimsave[i] == -1 && ti[i] == -1){ //æ‰‹åŠ¨è¾“å…¥-1 -1 -1ç»“æŸè¾“å…¥ æˆ–è¾“æ»¡10ä¸ªæ•°
+		if (beginsave[i] == -1 &&aimsave[i] == -1 && ti[i] == -1){ //ÊÖ¶¯ÊäÈë-1 -1 -1½áÊøÊäÈë »òÊäÂú10¸öÊı
 			total--;
 			break;
 		}
 	}
 
-	//å°†é—´éš”æ—¶é—´è½¬åŒ–ä¸ºå®é™…æ—¶é—´
+	//½«¼ä¸ôÊ±¼ä×ª»¯ÎªÊµ¼ÊÊ±¼ä
 	for (i=0; i<total-1; i++){
 		ti[i+1] +=ti[i];	
 	}
 
-	//å°†æ‰€æœ‰aimflooråˆå§‹å€¼è½¬ä¸º-20ï¼Œé¿å…å½±å“ä¹‹åçš„æ¯”å¯¹
+	//½«ËùÓĞaimfloor³õÊ¼Öµ×ªÎª-20£¬±ÜÃâÓ°ÏìÖ®ºóµÄ±È¶Ô
 	for( i=0; i<total; i++){
 		aimfloor[i] = -20;
 		beginfloor[i] = -20;
 	}
-	//åˆå§‹åŒ–ï¼šä»…å¯¹beginfloorè¿›è¡Œæ¯”å¯¹
-st:	for (i=jilu; i< jilu + 10; i++){		//åˆ°è¾¾è¯·æ±‚æ—¶é—´å°±å½•å…¥æ•°æ®
+	//³õÊ¼»¯£º½ö¶Ôbeginfloor½øĞĞ±È¶Ô
+st:	for (i=jilu; i< jilu + 10; i++){		//µ½´ïÇëÇóÊ±¼ä¾ÍÂ¼ÈëÊı¾İ
 		if (time == ti[jilu]){
 			jilu++;
 			beginfloor[i] = beginsave[i];
@@ -52,19 +52,19 @@ st:	for (i=jilu; i< jilu + 10; i++){		//åˆ°è¾¾è¯·æ±‚æ—¶é—´å°±å½•å…¥æ•°æ®
 		if (time != ti[jilu])
 			break;
 	}
-	for ( i=0; i<jilu; i++){ 	//å¯¹beginfloor[i]è¿›è¡Œæ¯”å¯¹
+	for ( i=0; i<jilu; i++){ 	//¶Ôbeginfloor[i]½øĞĞ±È¶Ô
 		distance1 = count(elevatorfloor,beginfloor[i]);
 		if (distance1 < mindistance1){
 			mindistance1 = distance1;
-			closestfloor = beginfloor[i];	//è®°å½•æœ€è¿‘çš„æ¥¼å±‚
+			closestfloor = beginfloor[i];	//¼ÇÂ¼×î½üµÄÂ¥²ã
 		}
-		if (mindistance1 == 0){			//æ­£å¥½å¤„äºè¯·æ±‚æ¥¼å±‚çš„ç‰¹æ®Šæƒ…å†µ
+		if (mindistance1 == 0){			//ÕıºÃ´¦ÓÚÇëÇóÂ¥²ãµÄÌØÊâÇé¿ö
 			people ++;
 			printf("%d %d %d\n", elevatorfloor, time, people);
-			beginfloor[i] = -20;			//åˆ é™¤æ•°æ®
-			aimfloor[i] = aimsave[i];		//å½•å…¥ç›®çš„æ¥¼å±‚
-			closestfloor = aimfloor[i];		//å‰å¾€ç›®çš„æ¥¼å±‚
-			mindistance1 = 10;				//é¿å…æ¥ä¸‹æ¥å‡ºç°æ­»å¾ªç¯
+			beginfloor[i] = -20;			//É¾³ıÊı¾İ
+			aimfloor[i] = aimsave[i];		//Â¼ÈëÄ¿µÄÂ¥²ã
+			closestfloor = aimfloor[i];		//Ç°ÍùÄ¿µÄÂ¥²ã
+			mindistance1 = 10;				//±ÜÃâ½ÓÏÂÀ´³öÏÖËÀÑ­»·
 			time++;
 			break;							
 		}
@@ -72,10 +72,10 @@ st:	for (i=jilu; i< jilu + 10; i++){		//åˆ°è¾¾è¯·æ±‚æ—¶é—´å°±å½•å…¥æ•°æ®
 	if (mindistance1 != 0){
 		time++;
 	}	
-//æ­£å¼è¿›å…¥å¾ªç¯
+//ÕıÊ½½øÈëÑ­»·
 	while(people> -1 ){
-		mindistance1 = 10,mindistance2 = 10;	//é¿å…å‡ºç°æ­»å¾ªç¯
-		//å¼€å§‹å½•å…¥æ•°æ®
+		mindistance1 = 10,mindistance2 = 10;	//±ÜÃâ³öÏÖËÀÑ­»·
+		//¿ªÊ¼Â¼ÈëÊı¾İ
 		for (i=jilu; i< jilu + 10; i++){
 			if (time == ti[jilu]){
 				jilu++;
@@ -84,10 +84,10 @@ st:	for (i=jilu; i< jilu + 10; i++){		//åˆ°è¾¾è¯·æ±‚æ—¶é—´å°±å½•å…¥æ•°æ®
 			if (time != ti[jilu])
 				break;
 		}
-		//å‰è¿›ä¸€æ¥¼ï¼Œæ¯”å¯¹æ˜¯å¦åˆ°è¾¾ä»»ä½•åˆå§‹æ¥¼å±‚æˆ–ç›®çš„æ¥¼å±‚
-		elevatorfloor = nextfloor(elevatorfloor, closestfloor);	//å‰è¿›ä¸€å±‚
+		//Ç°½øÒ»Â¥£¬±È¶ÔÊÇ·ñµ½´ïÈÎºÎ³õÊ¼Â¥²ã»òÄ¿µÄÂ¥²ã
+		elevatorfloor = nextfloor(elevatorfloor, closestfloor);	//Ç°½øÒ»²ã
 		for ( i= 0; i<jilu; i++){
-			if (people < 4){				//æœªè¶…è½½æ—¶æ¯”å¯¹æ˜¯å¦åˆ°è¾¾äº†åˆå§‹æ¥¼å±‚
+			if (people < 4){				//Î´³¬ÔØÊ±±È¶ÔÊÇ·ñµ½´ïÁË³õÊ¼Â¥²ã
 				if ( beginfloor[i] == elevatorfloor){
 					people ++;
 					beginfloor[i] = -20;
@@ -101,13 +101,13 @@ st:	for (i=jilu; i< jilu + 10; i++){		//åˆ°è¾¾è¯·æ±‚æ—¶é—´å°±å½•å…¥æ•°æ®
 				b = 1;
 			}
 		}
-		if (a == 1 || b == 1){			//æ»¡è¶³å…¶ä¸­ä¸€ä¸ªæ¡ä»¶ï¼Œè¾“å‡ºæ•°æ®
+		if (a == 1 || b == 1){			//Âú×ãÆäÖĞÒ»¸öÌõ¼ş£¬Êä³öÊı¾İ
 			printf("%d %d %d\n", elevatorfloor, time, people);
 			a = 0;
 			b = 0;
 		}
 		
-		//å¦‚æœè¿è¾“å®Œæ¯•ï¼Œç»“æŸç¨‹åº
+		//Èç¹ûÔËÊäÍê±Ï£¬½áÊø³ÌĞò
 		for (i=0; i<jilu; i++){
 			if (ti[jilu-1] < ti[total-1] || beginfloor[i] != -20 || aimfloor[i] != -20 )
 				break;
@@ -116,7 +116,7 @@ st:	for (i=jilu; i< jilu + 10; i++){		//åˆ°è¾¾è¯·æ±‚æ—¶é—´å°±å½•å…¥æ•°æ®
 		if (cnt == total)
 			break;
 		cnt = 0;
-		//å¦‚æœæ­¤æ—¶æ°å¥½å‡ºç°çœŸç©ºæœŸï¼ˆæ‰€æœ‰ä¹˜å®¢è¿è¾“å®Œæ¯•ä½†è¿˜æœ‰ä¹˜å®¢å°†è¦å‘¼å«ï¼Œæ—¶é—´ç›´æ¥å˜ä¸ºé‚£ä¸ªä¹˜å®¢çš„æ—¶é—´ï¼Œgotoå‡½æ•°å‰å¾€åˆå§‹åŒ–ï¼‰
+		//Èç¹û´ËÊ±Ç¡ºÃ³öÏÖÕæ¿ÕÆÚ£¨ËùÓĞ³Ë¿ÍÔËÊäÍê±Ïµ«»¹ÓĞ³Ë¿Í½«Òªºô½Ğ£¬Ê±¼äÖ±½Ó±äÎªÄÇ¸ö³Ë¿ÍµÄÊ±¼ä£¬gotoº¯ÊıÇ°Íù³õÊ¼»¯£©
 		for (i=0; i<jilu; i++){
 			if (ti[jilu-1] != ti[total-1] || beginfloor[i] != -20 || aimfloor[i] != -20 ){
 				break;
@@ -126,36 +126,36 @@ st:	for (i=jilu; i< jilu + 10; i++){		//åˆ°è¾¾è¯·æ±‚æ—¶é—´å°±å½•å…¥æ•°æ®
 		if (cnt == jilu){
 			jilu++;
 			time = ti[jilu];
-			goto st;				//stä¸ºstartçš„ç¼©å†™,è¿”å›åˆå§‹åŒ–
+			goto st;				//stÎªstartµÄËõĞ´,·µ»Ø³õÊ¼»¯
 		}
 		cnt = 0;
-	//è¿›è¡Œä¸‹ä¸€è½®çš„æ¥¼å±‚æœç´¢
-		//æœªè¶…è½½æ—¶å¯¹åˆå§‹æ¥¼å±‚è¿›è¡Œéå†
+	//½øĞĞÏÂÒ»ÂÖµÄÂ¥²ãËÑË÷
+		//Î´³¬ÔØÊ±¶Ô³õÊ¼Â¥²ã½øĞĞ±éÀú
 		if (people < 4){
-			for ( i=0; i<jilu; i++){ 	//å¯¹beginfloor[i]è¿›è¡Œæ¯”å¯¹
+			for ( i=0; i<jilu; i++){ 	//¶Ôbeginfloor[i]½øĞĞ±È¶Ô
 				distance1 = count(elevatorfloor,beginfloor[i]);
 				if (distance1 < mindistance1){
 					mindistance1 = distance1;
-					closestfloor1 = beginfloor[i];	//è®°å½•æœ€è¿‘çš„æ¥¼å±‚
+					closestfloor1 = beginfloor[i];	//¼ÇÂ¼×î½üµÄÂ¥²ã
 				}
 			}
 		}
-		//æ— è®ºæ˜¯å¦è¶…è½½å¯¹ç›®çš„æ¥¼å±‚è¿›è¡Œéå†
-		for (i=0; i<jilu; i++){		//å¯¹aimfloor[i]è¿›è¡Œæ¯”å¯¹
+		//ÎŞÂÛÊÇ·ñ³¬ÔØ¶ÔÄ¿µÄÂ¥²ã½øĞĞ±éÀú
+		for (i=0; i<jilu; i++){		//¶Ôaimfloor[i]½øĞĞ±È¶Ô
 			distance2 = count(elevatorfloor,aimfloor[i]);
 			if (distance2 < mindistance2){
 				mindistance2 = distance2;
-				closestfloor2 = aimfloor[i];	//è®°å½•æœ€è¿‘çš„æ¥¼å±‚
+				closestfloor2 = aimfloor[i];	//¼ÇÂ¼×î½üµÄÂ¥²ã
 			}
 		}
-		if (mindistance1 < mindistance2){		//åˆ¤æ–­æ¥ä¸‹æ¥å‰å¾€å“ªä¸ªæ¥¼å±‚
+		if (mindistance1 < mindistance2){		//ÅĞ¶Ï½ÓÏÂÀ´Ç°ÍùÄÄ¸öÂ¥²ã
 			closestfloor = closestfloor1;
 		}else{
 			closestfloor = closestfloor2;
 		}
 	time++;
 	}
-//è°ƒè¯•
+//µ÷ÊÔ
 //	printf("i\tti[i]\tjilu\ttotal\tbegin[i]\taimfloor\n");
 //	for( i=0; i<total; i++){
 //		printf("%d\t%d\t%d\t%d\t%d\t%d\n",i,ti[i],jilu,total,beginfloor[i],aimfloor[i]);

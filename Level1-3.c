@@ -1,111 +1,111 @@
 #include<stdio.h>
-int count(int a, int b); //å®šä¹‰è·ç¦»è®¡ç®—å‡½æ•°
+int count(int a, int b); //¶¨Òå¾àÀë¼ÆËãº¯Êı
 
-// è¾“å…¥æ ¼å¼ï¼š1 2 è¡¨ç¤ºåˆå§‹æ¥¼å±‚å’Œç›®æ ‡æ¥¼å±‚ 
-//	è¾“å…¥ -1 -1ç»“æŸè¾“å…¥	eg.  2 3
+// ÊäÈë¸ñÊ½£º1 2 ±íÊ¾³õÊ¼Â¥²ãºÍÄ¿±êÂ¥²ã 
+//	ÊäÈë -1 -1½áÊøÊäÈë	eg.  2 3
 //							5 9
 //							6 8
 //							-1 -1
 int main()
 {
-	int beginfloor[10];	//ä¹˜å®¢åˆå§‹æ¥¼å±‚
-	int aimfloor[10];	//ä¹˜å®¢ç›®æ ‡æ¥¼å±‚
-	int aim2floor[10]; //ä¹˜å®¢è¿›å…¥åå½•å…¥ç›®æ ‡æ¥¼å±‚
+	int beginfloor[10];	//³Ë¿Í³õÊ¼Â¥²ã
+	int aimfloor[10];	//³Ë¿ÍÄ¿±êÂ¥²ã
+	int aim2floor[10]; //³Ë¿Í½øÈëºóÂ¼ÈëÄ¿±êÂ¥²ã
 	int i = 0;
-	int elevatorfloor = 1;	//ç”µæ¢¯ç°å¤„æ¥¼å±‚
-	int closestfloor = 0;	//æœ€è¿‘æ¥¼å±‚ï¼ˆå³ç”µæ¢¯å³å°†å‰å¾€æ¥¼å±‚ï¼‰
-	int mindistance = 10;	//æœ€çŸ­è·ç¦»ï¼ˆç”¨äºæ—¶é—´ç»Ÿè®¡ï¼‰
+	int elevatorfloor = 1;	//µçÌİÏÖ´¦Â¥²ã
+	int closestfloor = 0;	//×î½üÂ¥²ã£¨¼´µçÌİ¼´½«Ç°ÍùÂ¥²ã£©
+	int mindistance = 10;	//×î¶Ì¾àÀë£¨ÓÃÓÚÊ±¼äÍ³¼Æ£©
 	int people = 0;	
 	int time = 0;		
 
-	printf("è¾“å…¥ç»“æŸåæŒ‰å›è½¦é”®è¾“å…¥-1 -1 -1å†æŒ‰å›è½¦é”®é€€å‡ºç¨‹åº\n");
+	printf("ÊäÈë½áÊøºó°´»Ø³µ¼üÊäÈë-1 -1 -1ÔÙ°´»Ø³µ¼üÍË³ö³ÌĞò\n");
 	
-//å°†æ‰€æœ‰æ•°ç»„çš„å€¼åˆå§‹åŒ–ä¸º-20ï¼ˆé¿å…å¯¹åç»­æ•°æ®é€ æˆå½±å“ï¼‰	
+//½«ËùÓĞÊı×éµÄÖµ³õÊ¼»¯Îª-20£¨±ÜÃâ¶ÔºóĞøÊı¾İÔì³ÉÓ°Ïì£©	
 	for( i=0; i<10; i++){	
 		beginfloor[i] = -20;
 		aimfloor[i] = -20;
 		aim2floor[i] = -20;
 	}
 
-//æ•°ç»„å½•å…¥
+//Êı×éÂ¼Èë
 	for( i=0; i<10; i++){	
 	scanf("%d %d", &beginfloor[i], &aimfloor[i]);
-	if (beginfloor[i] == -1 &&aimfloor[i] == -1){ //æ‰‹åŠ¨è¾“å…¥-1 -1ç»“æŸè¾“å…¥ æˆ–è¾“æ»¡10ä¸ªæ•°
+	if (beginfloor[i] == -1 &&aimfloor[i] == -1){ //ÊÖ¶¯ÊäÈë-1 -1½áÊøÊäÈë »òÊäÂú10¸öÊı
 		beginfloor[i] = -20;
 		aimfloor[i] = -20;
 		break;
 		}
 	}
 
-//	æ‰“å°ç”µæ¢¯åˆå§‹æ¥¼å±‚(å¦‚æœä¸€æ¥¼æ²¡äººä¸Šç”µæ¢¯çš„æƒ…å†µä¸‹)
+//	´òÓ¡µçÌİ³õÊ¼Â¥²ã(Èç¹ûÒ»Â¥Ã»ÈËÉÏµçÌİµÄÇé¿öÏÂ)
 	int cal = 0;
 	for( i=0; i<10; i++){	
 		if (beginfloor[i] == 1)
-		cal +=1;		//calç”¨æ¥åˆ¤æ–­æ˜¯å¦ä¸€æ¥¼æœ‰äººä¸Šæ¢¯ï¼Œå³æ˜¯å¦éœ€è¦æ‰“å°å‡º 1 0 0
+		cal +=1;		//calÓÃÀ´ÅĞ¶ÏÊÇ·ñÒ»Â¥ÓĞÈËÉÏÌİ£¬¼´ÊÇ·ñĞèÒª´òÓ¡³ö 1 0 0
 	} 
 	if( cal == 0){
 		printf("%d %d %d\n", elevatorfloor, time, people);
 	}
-//è¿›è¡Œæœ€çŸ­è·ç¦»æµ‹ç®—(åˆå§‹åŒ–æ¥¼å±‚å¯»æ‰¾ï¼‰
+//½øĞĞ×î¶Ì¾àÀë²âËã(³õÊ¼»¯Â¥²ãÑ°ÕÒ£©
 	int distance =10;
 	int save;
-	for ( i=0; i<10; i++){ 	//ç¬¬ä¸€æ¬¡åªå¯¹beginfloor[i]è¿›è¡Œæ¯”å¯¹
+	for ( i=0; i<10; i++){ 	//µÚÒ»´ÎÖ»¶Ôbeginfloor[i]½øĞĞ±È¶Ô
 			distance = count(elevatorfloor,beginfloor[i]);
 			if (distance < mindistance){
 				mindistance = distance;
 				closestfloor = beginfloor[i];
-				save = i;						//è®°å½•içš„å€¼
+				save = i;						//¼ÇÂ¼iµÄÖµ
 			}
 		}
-	aim2floor[save] = aimfloor[save];		//å½•å…¥ç›®æ ‡æ¥¼å±‚
-	beginfloor[save] = -20;			//åˆ é™¤æ•°æ®
-	elevatorfloor = closestfloor;	//è®¡ç®—æ¥¼å±‚
-	people +=1;						//è®¡ç®—äººæ•°
-	time += mindistance;			//è®¡ç®—æ—¶é—´
+	aim2floor[save] = aimfloor[save];		//Â¼ÈëÄ¿±êÂ¥²ã
+	beginfloor[save] = -20;			//É¾³ıÊı¾İ
+	elevatorfloor = closestfloor;	//¼ÆËãÂ¥²ã
+	people +=1;						//¼ÆËãÈËÊı
+	time += mindistance;			//¼ÆËãÊ±¼ä
 	printf("%d %d %d\n", elevatorfloor, time, people);
 
 	int distance2 =0;
 	int save2 = 0;
 	int mindistance2 = 10;
-	int	closestfloor2 = 10;			//æ‰€æœ‰2ä¸‹æ ‡è¡¨ç¤ºå’Œbeginfloor[i]æ—¶çš„æ¯”å¯¹ä½œåŒºåˆ†
-	int memory[10];				//ç”¨äºæ¥ä¸‹æ¥nä¸ªä¹˜å®¢ç›®çš„æ¥¼å±‚ä¸€è‡´æ—¶æ•°æ®åˆ é™¤
-	int number = 0;						//ç”¨äºæ¥ä¸‹æ¥nä¸ªä¹˜å®¢ç›®çš„æ¥¼å±‚ä¸€è‡´æ—¶people-n
+	int	closestfloor2 = 10;			//ËùÓĞ2ÏÂ±ê±íÊ¾ºÍbeginfloor[i]Ê±µÄ±È¶Ô×÷Çø·Ö
+	int memory[10];				//ÓÃÓÚ½ÓÏÂÀ´n¸ö³Ë¿ÍÄ¿µÄÂ¥²ãÒ»ÖÂÊ±Êı¾İÉ¾³ı
+	int number = 0;						//ÓÃÓÚ½ÓÏÂÀ´n¸ö³Ë¿ÍÄ¿µÄÂ¥²ãÒ»ÖÂÊ±people-n
 	
 	while(people > -1){
 		while (people < 4 ){	
 			mindistance = 10;
 			mindistance2 =10;	
-			for ( i=0; i<10; i++){			//æœªè¶…è½½æ—¶å¯¹beginfloor[i]æ¯”å¯¹
+			for ( i=0; i<10; i++){			//Î´³¬ÔØÊ±¶Ôbeginfloor[i]±È¶Ô
 				distance =count(elevatorfloor,beginfloor[i]);
 				if (distance < mindistance){
 					mindistance = distance;
 					closestfloor = beginfloor[i];
-					save = i;						//è®°å½•içš„å€¼
+					save = i;						//¼ÇÂ¼iµÄÖµ
 				}
 			}
 			
-			for ( i=0; i<10; i++){			//æœªè¶…è½½æ—¶å’Œaim2floor[i]è¿›è¡Œ
+			for ( i=0; i<10; i++){			//Î´³¬ÔØÊ±ºÍaim2floor[i]½øĞĞ
 				distance2 =count(elevatorfloor,aim2floor[i]);
 				if (distance2 < mindistance2){
 					mindistance2 = distance2;
 					closestfloor2 = aimfloor[i];
-					save2 = i;					//è®°å½•içš„å€¼ï¼ˆä¾¿äºå½•å…¥ç›®æ ‡æ¥¼å±‚ï¼‰
+					save2 = i;					//¼ÇÂ¼iµÄÖµ£¨±ãÓÚÂ¼ÈëÄ¿±êÂ¥²ã£©
 				}				
 				
 			}
-			//distanceå’Œdistance2è¿›è¡Œæ¯”è¾ƒ
-			//å¦‚æœå‰å¾€èµ·å§‹æ¥¼å±‚
+			//distanceºÍdistance2½øĞĞ±È½Ï
+			//Èç¹ûÇ°ÍùÆğÊ¼Â¥²ã
 			if( mindistance < mindistance2){			
-				aim2floor[save] = aimfloor[save];		//å½•å…¥ç›®æ ‡æ¥¼å±‚
-				beginfloor[save] = -20;			//åˆ é™¤æ•°æ®
-				elevatorfloor = closestfloor;	//è®¡ç®—æ¥¼å±‚
-				people +=1;						//è®¡ç®—äººæ•°
-				time += mindistance;			//è®¡ç®—æ—¶é—´
+				aim2floor[save] = aimfloor[save];		//Â¼ÈëÄ¿±êÂ¥²ã
+				beginfloor[save] = -20;			//É¾³ıÊı¾İ
+				elevatorfloor = closestfloor;	//¼ÆËãÂ¥²ã
+				people +=1;						//¼ÆËãÈËÊı
+				time += mindistance;			//¼ÆËãÊ±¼ä
 				printf("%d %d %d\n", elevatorfloor, time, people);	
 			}
-			//å¦‚æœå‰å¾€ç›®æ ‡æ¥¼å±‚
+			//Èç¹ûÇ°ÍùÄ¿±êÂ¥²ã
 			else if(mindistance > mindistance2){
-			for (i=0; i<10; i++){				//ä¸“ç”¨äºè§£å†³ç›®çš„æ¥¼å±‚ç›¸åŒæ—¶çš„äººæ•°bug
+			for (i=0; i<10; i++){				//×¨ÓÃÓÚ½â¾öÄ¿µÄÂ¥²ãÏàÍ¬Ê±µÄÈËÊıbug
 				if (aim2floor[save2] == aim2floor[i] ){
 					memory[i] = i;
 					number ++;
@@ -124,9 +124,9 @@ int main()
 				time += mindistance2;
 				printf("%d %d %d\n", elevatorfloor, time, people);
 			}
-			//distanceä¸€è‡´æƒ…å†µä¸‹æ”¾å¼ƒå‰å¾€èµ·å§‹æ¥¼å±‚ã€‚å‰å¾€ç›®çš„æ¥¼å±‚ï¼Œpeople-n
+			//distanceÒ»ÖÂÇé¿öÏÂ·ÅÆúÇ°ÍùÆğÊ¼Â¥²ã¡£Ç°ÍùÄ¿µÄÂ¥²ã£¬people-n
 			else if(mindistance == mindistance2 && closestfloor2 != closestfloor){
-				for (i=0; i<10; i++){				//ä¸“ç”¨äºè§£å†³ç›®çš„æ¥¼å±‚ç›¸åŒæ—¶çš„äººæ•°bug
+				for (i=0; i<10; i++){				//×¨ÓÃÓÚ½â¾öÄ¿µÄÂ¥²ãÏàÍ¬Ê±µÄÈËÊıbug
 					if (aim2floor[save2] == aim2floor[i] ){
 						memory[i] = i;
 						number ++;
@@ -146,9 +146,9 @@ int main()
 				printf("%d %d %d\n", elevatorfloor, time, people);
 			
 			}
-			//ç›®çš„æ¥¼å±‚ä¸èµ·å§‹æ¥¼å±‚ä¸€è‡´åŒæ—¶å‰å¾€
+			//Ä¿µÄÂ¥²ãÓëÆğÊ¼Â¥²ãÒ»ÖÂÍ¬Ê±Ç°Íù
 			else if(mindistance == mindistance2 && closestfloor2 == closestfloor){
-				for (i=0; i<10; i++){				//ä¸“ç”¨äºè§£å†³ç›®çš„æ¥¼å±‚ç›¸åŒæ—¶çš„äººæ•°bug
+				for (i=0; i<10; i++){				//×¨ÓÃÓÚ½â¾öÄ¿µÄÂ¥²ãÏàÍ¬Ê±µÄÈËÊıbug
 					if (aim2floor[save2] == aim2floor[i] ){
 						memory[i] = i;
 						number ++;
@@ -170,10 +170,10 @@ int main()
 				people +=1;
 				printf("%d %d %d\n", elevatorfloor, time, people);	
 			}
-			//è®©ç¨‹åºç»ˆæ­¢
+			//ÈÃ³ÌĞòÖÕÖ¹
 
-//è°ƒè¯•				for( i=0; i<10; i++){
-//	printf("ä»è¿™è¡Œå¼€å§‹%d %d %d %d\n",i,beginfloor[i], aimfloor[i],aim2floor[i]);
+//µ÷ÊÔ				for( i=0; i<10; i++){
+//	printf("´ÓÕâĞĞ¿ªÊ¼%d %d %d %d\n",i,beginfloor[i], aimfloor[i],aim2floor[i]);
 //	}
 			int count;
 			i = 0;
@@ -182,22 +182,22 @@ int main()
 				if (beginfloor[i]!=-20 || aim2floor[i]!= -20)
 				break;
 			}
-//è°ƒè¯•			printf("countçš„å€¼æ˜¯%d\n",count);
+//µ÷ÊÔ			printf("countµÄÖµÊÇ%d\n",count);
 			if (count == 10)
 			break;			
 			count = 0;
 		}
-	//è¶…è½½æ—¶
+	//³¬ÔØÊ±
 		while(people > 3){
-			for ( i=0; i<10; i++){			//è¶…è½½æ—¶å’Œaim2floor[i]è¿›è¡Œæ¯”å¯¹
+			for ( i=0; i<10; i++){			//³¬ÔØÊ±ºÍaim2floor[i]½øĞĞ±È¶Ô
 				distance2 =count(elevatorfloor,aim2floor[i]);
 				if (distance2 < mindistance2){
 					mindistance2 = distance2;
 					closestfloor2 = aimfloor[i];
-					save2 = i;					//è®°å½•içš„å€¼
+					save2 = i;					//¼ÇÂ¼iµÄÖµ
 				}
 			}
-			for (i=0; i<10; i++){				//ä¸“ç”¨äºè§£å†³ç›®çš„æ¥¼å±‚ç›¸åŒæ—¶çš„äººæ•°bug
+			for (i=0; i<10; i++){				//×¨ÓÃÓÚ½â¾öÄ¿µÄÂ¥²ãÏàÍ¬Ê±µÄÈËÊıbug
 				if (aim2floor[save2] == aim2floor[i] ){
 					memory[i] = i;
 					number ++;
@@ -216,7 +216,7 @@ int main()
 			time += mindistance2;
 			printf("%d %d %d\n", elevatorfloor, time, people);
 		}
-	//åœ¨å¤§çš„whileå¾ªç¯ä¸­å†è®©countåœæ­¢
+	//ÔÚ´óµÄwhileÑ­»·ÖĞÔÙÈÃcountÍ£Ö¹
 		int cnt =0;
 			i = 0;
 			for ( i=0;i<10;i++){
@@ -228,9 +228,9 @@ int main()
 			break;			
 			cnt = 0;	
 	}
-//	//è°ƒè¯•
+//	//µ÷ÊÔ
 //	for( i=0; i<10; i++){
-//	printf("ä»è¿™è¡Œå¼€å§‹%d %d %d %d\n",i,beginfloor[i], aimfloor[i],aim2floor[i]);
+//	printf("´ÓÕâĞĞ¿ªÊ¼%d %d %d %d\n",i,beginfloor[i], aimfloor[i],aim2floor[i]);
 //	}
 
 	return 0;
