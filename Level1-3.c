@@ -18,6 +18,7 @@ int main()
 	int people = 0;	
 	int time = 0;		
 
+	printf("输入结束后按回车键输入-1 -1 -1再按回车键退出程序\n");
 	
 //将所有数组的值初始化为-20（避免对后续数据造成影响）	
 	for( i=0; i<10; i++){	
@@ -234,7 +235,6 @@ int main()
 
 	return 0;
 }
-
 int count(int a, int b)
 {	
 	int m;
